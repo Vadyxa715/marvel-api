@@ -1,11 +1,10 @@
 package com.kurdev.marvel.feign;
 
-import com.kurdev.marvel.model.CharacterDataWrapper;
+import com.kurdev.marvel.model.character.CharacterDataWrapper;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @FeignClient("marvel")
 public interface MarvelClient {

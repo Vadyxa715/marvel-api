@@ -1,5 +1,7 @@
-package com.kurdev.marvel.model;
+package com.kurdev.marvel.model.character;
 
+import com.kurdev.marvel.model.Image;
+import com.kurdev.marvel.model.Url;
 import com.kurdev.marvel.model.list.ComicList;
 import com.kurdev.marvel.model.list.EventList;
 import com.kurdev.marvel.model.list.SeriesList;

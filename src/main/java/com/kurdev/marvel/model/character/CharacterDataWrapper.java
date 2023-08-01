@@ -1,4 +1,4 @@
-package com.kurdev.marvel.model;
+package com.kurdev.marvel.model.character;
 
 import lombok.Data;
 
