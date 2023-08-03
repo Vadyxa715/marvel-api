@@ -8,6 +8,9 @@ import com.kurdev.marvel.service.ImageService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
+@Transactional
 @Service
 @AllArgsConstructor
 public class ImageServiceImpl implements ImageService {
