@@ -14,7 +14,7 @@ public class ComicMapper {
         );
     }
 
-    public static Comic mapToComicDto(ComicDto comicDto){
+    public static Comic mapToComic(ComicDto comicDto){
         return new Comic(
                 comicDto.getId(),
                 comicDto.getTitle(),

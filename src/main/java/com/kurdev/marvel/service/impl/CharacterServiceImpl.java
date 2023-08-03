@@ -27,9 +27,6 @@ public class CharacterServiceImpl implements CharacterService {
     public CharacterDto getCharacterById(Long characterId) {
         Character character = characterRepo.findById(characterId)
                 .orElse(null);
-
-//                .orElseThrow(()->
-//                        new ResourceNotFoundExeption("Не существует персонажа с данным \"ID\" : " + characterId));
         return CharacterMapper.mapToCharacterDto(character);
     }
 }
