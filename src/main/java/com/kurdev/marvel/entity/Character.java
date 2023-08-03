@@ -1,16 +1,14 @@
 package com.kurdev.marvel.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 @Entity
 @Table(name = "characters")
 public class Character {
@@ -25,6 +23,16 @@ public class Character {
     @Column(name = "description")
     private String description;
 
-//    @JoinTable(name = "comics")
-//    private List<Comic> comics;
+    @ManyToMany
+    @JoinTable(
+            name = "characters_comics",
+            joinColumns = @JoinColumn(name = "character_id"),
+            inverseJoinColumns = @JoinColumn(name = "comic_id"))
+    private List<Comic> comics;
+
+    public Character(Long id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
 }

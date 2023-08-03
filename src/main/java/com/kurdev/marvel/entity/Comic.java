@@ -1,13 +1,13 @@
 package com.kurdev.marvel.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "comic")
 public class Comic {
@@ -27,4 +27,19 @@ public class Comic {
 
     @Column(name = "page_count")
     private int pageCount;
+
+    @ManyToMany
+    @JoinTable(
+            name = "characters_comics",
+            joinColumns = @JoinColumn(name = "comic_id"),
+            inverseJoinColumns = @JoinColumn(name = "character_id"))
+      private List<Character> characters;
+
+    public Comic(Long id, String title, double issueNumber, String description, int pageCount) {
+        this.id = id;
+        this.title = title;
+        this.issueNumber = issueNumber;
+        this.description = description;
+        this.pageCount = pageCount;
+    }
 }
