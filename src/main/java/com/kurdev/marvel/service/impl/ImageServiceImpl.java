@@ -5,10 +5,9 @@ import com.kurdev.marvel.entity.Image;
 import com.kurdev.marvel.mapper.ImageMapper;
 import com.kurdev.marvel.repo.ImageRepo;
 import com.kurdev.marvel.service.ImageService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 @Transactional
 @Service

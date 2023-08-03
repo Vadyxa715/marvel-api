@@ -7,10 +7,10 @@ import com.kurdev.marvel.mapper.CharacterMapper;
 import com.kurdev.marvel.mapper.ComicMapper;
 import com.kurdev.marvel.repo.ComicRepo;
 import com.kurdev.marvel.service.ComicService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
