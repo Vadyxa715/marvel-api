@@ -11,4 +11,11 @@ public interface CharacterService {
     CharacterDto getCharacterById(Long characterId);
 
     List<ComicDto> getAllComicsByCharacterId(Long characterId);
+
+    //List<ComicDto> save(Long characterId);
+
+    boolean existsById(Long characterId);
+
+    void addComic (Long comicId, Long characterId);
+
 }

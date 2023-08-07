@@ -5,6 +5,7 @@ import com.kurdev.marvel.dto.ComicDto;
 import com.kurdev.marvel.entity.Comic;
 import com.kurdev.marvel.mapper.CharacterMapper;
 import com.kurdev.marvel.mapper.ComicMapper;
+import com.kurdev.marvel.repo.CharacterRepo;
 import com.kurdev.marvel.repo.ComicRepo;
 import com.kurdev.marvel.service.ComicService;
 import jakarta.transaction.Transactional;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 public class ComicServiceImpl implements ComicService {
 
     private ComicRepo comicRepo;
+    private CharacterRepo characterRepo;
     @Override
     public ComicDto createComic(ComicDto comicDto) {
         Comic comic = ComicMapper.mapToComic(comicDto);
@@ -39,8 +41,25 @@ public class ComicServiceImpl implements ComicService {
         if(!comicRepo.existsById(comicId)){
             throw new IllegalArgumentException("Не существет комикса с такий id = " + comicId);
         }
-        return comicRepo.findCharacterByComicId(comicId)
+        //return comicRepo.findCharacterByComicId(comicId)
+        return characterRepo.findByComicId(comicId)
                 .stream().map(CharacterMapper::mapToCharacterDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean existsById(Long id) {
+         return comicRepo.existsById(id);
+    }
+
+    @Override
+    public void addCharacter(Long characterId, Long comicId) {
+        var characterOptional = characterRepo.findById(characterId);
+        var comicOptional = comicRepo.findById(comicId);
+        if(characterOptional.isPresent() && comicOptional.isPresent()){
+            Comic comic = comicOptional.get();
+            comic.getCharacters().add(characterOptional.get());
+            comicRepo.save(comic);
+        }
     }
 }

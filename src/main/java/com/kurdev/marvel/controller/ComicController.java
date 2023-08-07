@@ -2,11 +2,14 @@ package com.kurdev.marvel.controller;
 
 import com.kurdev.marvel.dto.CharacterDto;
 import com.kurdev.marvel.dto.ComicDto;
+import com.kurdev.marvel.service.CharacterService;
 import com.kurdev.marvel.service.ComicService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class ComicController {
 
     private ComicService comicService;
+    private CharacterService characterService;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> createComic(@RequestBody ComicDto comicDto) {
@@ -35,10 +39,25 @@ public class ComicController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/characters")
     public ResponseEntity<?> getCharactersFromComic(@PathVariable Long id) {
-        ComicDto getComic = comicService.getComicById(id);
-        if (getComic == null) {
+        if (!comicService.existsById(id)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Комикса с таким \"ID : " + id + "\" не существует ");
         }
-        return new ResponseEntity<>(getComic, HttpStatus.OK);
+
+        List<CharacterDto> characterDto = comicService.getAllCharacterByComicId(id);
+        return new ResponseEntity<>(characterDto, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/addCharacter/{characterId}")
+    public ResponseEntity<?> addCharacterByComicId(@PathVariable(value = "id") Long comicId,
+                                                   @PathVariable(value = "characterId") Long characterId) {
+        if (!comicService.existsById(comicId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Комикса с таким \"ID : " + comicId + "\" не существует.");
+        }
+        if (!characterService.existsById(characterId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонажа с таким \"ID : " + characterId + "\" не существует.");
+        }
+        comicService.addCharacter(characterId, comicId);
+        return ResponseEntity.ok().build();
     }
 }
+

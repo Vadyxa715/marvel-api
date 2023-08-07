@@ -45,13 +45,35 @@ public class CharacterController {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/comics")
     public ResponseEntity<?> getAllComicsByCharacterId(@PathVariable(value = "id") Long characterId) {
         try{
-            List<ComicDto> comics = characterService.getAllComicsByCharacterId(characterId);
-            return new ResponseEntity<>(comics, HttpStatus.OK);
+            List<ComicDto> comicDto = characterService.getAllComicsByCharacterId(characterId);
+            return new ResponseEntity<>(comicDto, HttpStatus.OK);
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонажа с таким \"ID : " + characterId + "\" не найден. ");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонаж с таким \"ID : " + characterId + "\" не найден. ");
         }
     }
 
-//    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/addComic/{comicId}")
+//    @RequestMapping(method = RequestMethod.POST, value = "/{id}/comics")
+//    public ResponseEntity<?> addComicByCharacterId (@PathVariable(value = "id")Long characterId,
+//                                                    @RequestBody ComicDto comicDto){
+//        try{
+//            List<ComicDto> comicDtos = characterService.save(characterId);
+//            return new ResponseEntity<>(comicDtos, HttpStatus.OK);
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонаж с таким \"ID : " + characterId + "\" не найден.");
+//        }
+//    }
+
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/addComic/{comicId}")
+    public ResponseEntity<?> addComicByCharacterId (@PathVariable(value = "id")Long characterId,
+                                                    @PathVariable(value = "comicId")Long comicId){
+        if (!comicService.existsById(comicId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Комикса с таким \"ID : " + comicId + "\" не существует.");
+        }
+        if (!characterService.existsById(characterId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонажа с таким \"ID : " + characterId + "\" не существует.");
+        }
+        characterService.addComic(comicId, characterId);
+        return ResponseEntity.ok().build();
+    }
 
 }

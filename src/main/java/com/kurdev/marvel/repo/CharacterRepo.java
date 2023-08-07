@@ -10,7 +10,11 @@ import java.util.List;
 
 @Repository
 public interface CharacterRepo extends JpaRepository<Character, Long> {
-    @Query(value = "select c from comic c join characters_comics cc on cc.comic_id = c.id " +
+    @Query(value = "select c.* from comic c join characters_comics cc on cc.comic_id = c.id " +
             " where cc.character_id = ?1",nativeQuery = true)
     List<Comic> findComicByCharacterId(Long characterId);
+
+    @Query(value = "select c.* from characters c join characters_comics cc on cc.character_id = c.id " +
+            " where cc.comic_id = ?1",nativeQuery = true)
+    List<Character> findByComicId(Long comicId);
 }
