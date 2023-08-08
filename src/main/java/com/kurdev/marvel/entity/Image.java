@@ -17,13 +17,14 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "path")
-    private String path;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "extension")
     private String extension;
 
-//    @Lob
-//    private byte[] imageData;
+    @Lob
+    @Column(name = "image_data")//, columnDefinition = "BLOB")
+    private byte[] imageData;
 
 }

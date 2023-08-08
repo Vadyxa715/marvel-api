@@ -15,6 +15,7 @@ public class CharacterMapper {
     }
     //обычно называется revert(реверт)
     public static Character mapToCharacter (CharacterDto characterDto){
+        if(characterDto == null) return null;
         return new Character(
                 characterDto.getId(),
                 characterDto.getName(),
