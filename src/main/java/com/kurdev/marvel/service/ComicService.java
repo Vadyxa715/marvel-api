@@ -13,4 +13,9 @@ public interface ComicService {
 
     List<CharacterDto> getAllCharacterByComicId(Long comicId);
 
+    boolean existsById(Long id);
+
+    void addCharacter(Long characterId, Long comicId);
+
+    List<ComicDto> getAllComics();
 }

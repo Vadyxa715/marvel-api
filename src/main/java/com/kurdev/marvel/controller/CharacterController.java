@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -24,13 +25,22 @@ public class CharacterController {
     private CharacterService characterService;
     private ComicService comicService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, value = "/create")
     public ResponseEntity<?> createCharacter(@RequestBody CharacterDto characterDto) {
         CharacterDto saveCharacter = characterService.createCharacter(characterDto);
         if (saveCharacter == null || saveCharacter.getId() == null) {
             return ResponseEntity.badRequest().body("Поля пустые");
         }
         return new ResponseEntity<>(saveCharacter, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<?> getAllCharacters (){
+        List<CharacterDto> characterDtoList = characterService.getAllCharacters();
+        if (characterDtoList == null || characterDtoList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не найдено ни одного персонажа.");
+        }
+        return new ResponseEntity<>(characterDtoList,HttpStatus.FOUND);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
@@ -45,13 +55,34 @@ public class CharacterController {
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/comics")
     public ResponseEntity<?> getAllComicsByCharacterId(@PathVariable(value = "id") Long characterId) {
         try{
-            List<ComicDto> comics = characterService.getAllComicsByCharacterId(characterId);
-            return new ResponseEntity<>(comics, HttpStatus.OK);
+            List<ComicDto> comicDto = characterService.getAllComicsByCharacterId(characterId);
+            return new ResponseEntity<>(comicDto, HttpStatus.OK);
         }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонажа с таким \"ID : " + characterId + "\" не найден. ");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонаж с таким \"ID : " + characterId + "\" не найден. ");
         }
     }
 
-//    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/addComic/{comicId}")
+//    @RequestMapping(method = RequestMethod.POST, value = "/{id}/comics")
+//    public ResponseEntity<?> addComicByCharacterId (@PathVariable(value = "id")Long characterId,
+//                                                    @RequestBody ComicDto comicDto){
+//        try{
+//            List<ComicDto> comicDtos = characterService.save(characterId);
+//            return new ResponseEntity<>(comicDtos, HttpStatus.OK);
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонаж с таким \"ID : " + characterId + "\" не найден.");
+//        }
+//    }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/{id}/addComic/{comicId}")
+    public ResponseEntity<?> addComicByCharacterId (@PathVariable(value = "id")Long characterId,
+                                                    @PathVariable(value = "comicId")Long comicId){
+        if (!comicService.existsById(comicId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Комикса с таким \"ID : " + comicId + "\" не существует.");
+        }
+        if (!characterService.existsById(characterId)) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонажа с таким \"ID : " + characterId + "\" не существует.");
+        }
+        characterService.addComic(comicId, characterId);
+        return ResponseEntity.ok().build();
+    }
 }

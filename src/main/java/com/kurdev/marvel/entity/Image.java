@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,4 +22,8 @@ public class Image {
 
     @Column(name = "extension")
     private String extension;
+
+//    @Lob
+//    private byte[] imageData;
+
 }
