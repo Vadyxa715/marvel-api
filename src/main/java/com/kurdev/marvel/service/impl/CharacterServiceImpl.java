@@ -44,7 +44,6 @@ public class CharacterServiceImpl implements CharacterService {
         if (!characterRepo.existsById(characterId)) {
             throw new IllegalArgumentException("Не существет персонажа с таким id = " + characterId);
         }
-        //return characterRepo.findComicByCharacterId(characterId)
         return comicRepo.findByCharacterId(characterId)
                 .stream().map(ComicMapper::mapToComicDto)
                 .collect(Collectors.toList());
@@ -64,6 +63,13 @@ public class CharacterServiceImpl implements CharacterService {
             character.getComics().add(comicOptional.get());
             characterRepo.save(character);
         }
+    }
+
+    @Override
+    public List<CharacterDto> getAllCharacters() {
+        List<Character> characterList = characterRepo.findAll();
+        return characterList.stream().map(CharacterMapper::mapToCharacterDto)
+                .collect(Collectors.toList());
     }
 
     @PostConstruct

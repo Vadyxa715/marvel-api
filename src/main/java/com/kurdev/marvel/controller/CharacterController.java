@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -24,13 +25,22 @@ public class CharacterController {
     private CharacterService characterService;
     private ComicService comicService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, value = "/create")
     public ResponseEntity<?> createCharacter(@RequestBody CharacterDto characterDto) {
         CharacterDto saveCharacter = characterService.createCharacter(characterDto);
         if (saveCharacter == null || saveCharacter.getId() == null) {
             return ResponseEntity.badRequest().body("Поля пустые");
         }
         return new ResponseEntity<>(saveCharacter, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<?> getAllCharacters (){
+        List<CharacterDto> characterDtoList = characterService.getAllCharacters();
+        if (characterDtoList == null || characterDtoList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не найдено ни одного персонажа.");
+        }
+        return new ResponseEntity<>(characterDtoList,HttpStatus.FOUND);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
@@ -75,5 +85,4 @@ public class CharacterController {
         characterService.addComic(comicId, characterId);
         return ResponseEntity.ok().build();
     }
-
 }

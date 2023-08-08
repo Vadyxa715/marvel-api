@@ -8,6 +8,7 @@ import com.kurdev.marvel.mapper.ComicMapper;
 import com.kurdev.marvel.repo.CharacterRepo;
 import com.kurdev.marvel.repo.ComicRepo;
 import com.kurdev.marvel.service.ComicService;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class ComicServiceImpl implements ComicService {
 
     private ComicRepo comicRepo;
     private CharacterRepo characterRepo;
+
     @Override
     public ComicDto createComic(ComicDto comicDto) {
         Comic comic = ComicMapper.mapToComic(comicDto);
@@ -38,10 +40,9 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public List<CharacterDto> getAllCharacterByComicId(Long comicId) {
-        if(!comicRepo.existsById(comicId)){
+        if (!comicRepo.existsById(comicId)) {
             throw new IllegalArgumentException("Не существет комикса с такий id = " + comicId);
         }
-        //return comicRepo.findCharacterByComicId(comicId)
         return characterRepo.findByComicId(comicId)
                 .stream().map(CharacterMapper::mapToCharacterDto)
                 .collect(Collectors.toList());
@@ -49,17 +50,35 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public boolean existsById(Long id) {
-         return comicRepo.existsById(id);
+        return comicRepo.existsById(id);
     }
 
     @Override
     public void addCharacter(Long characterId, Long comicId) {
         var characterOptional = characterRepo.findById(characterId);
         var comicOptional = comicRepo.findById(comicId);
-        if(characterOptional.isPresent() && comicOptional.isPresent()){
+        if (characterOptional.isPresent() && comicOptional.isPresent()) {
             Comic comic = comicOptional.get();
             comic.getCharacters().add(characterOptional.get());
             comicRepo.save(comic);
         }
+    }
+
+    @Override
+    public List<ComicDto> getAllComics() {
+        List<Comic> comicList = comicRepo.findAll();
+        return comicList.stream().map(ComicMapper::mapToComicDto)
+                .collect(Collectors.toList());
+    }
+
+    @PostConstruct
+    void initDB() {
+        Comic comic = new Comic(1L, "Название", 2.0, "Описание", 30);
+        Comic comic1 = new Comic(2L, "Название", 2.0, "Описание", 30);
+        Comic comic2 = new Comic(3L, "Название", 2.0, "Описание", 30);
+        Comic comic3 = new Comic(4L, "Название", 2.0, "Описание", 30);
+        Comic comic4 = new Comic(5L, "Название", 2.0, "Описание", 30);
+        List<Comic> comicList = List.of(comic, comic1, comic2, comic3, comic4);
+        comicRepo.saveAll(comicList);
     }
 }

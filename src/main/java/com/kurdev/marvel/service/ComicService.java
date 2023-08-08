@@ -17,4 +17,5 @@ public interface ComicService {
 
     void addCharacter(Long characterId, Long comicId);
 
+    List<ComicDto> getAllComics();
 }

@@ -19,13 +19,22 @@ public class ComicController {
     private ComicService comicService;
     private CharacterService characterService;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST, value = "/create")
     public ResponseEntity<?> createComic(@RequestBody ComicDto comicDto) {
         ComicDto saveComic = comicService.createComic(comicDto);
         if (saveComic == null || saveComic.getId() == null) {
             return ResponseEntity.badRequest().body("Поля пустые");
         }
         return new ResponseEntity<>(saveComic, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity<?> getAllComics() {
+        List<ComicDto> comicListDto = comicService.getAllComics();
+        if (comicListDto == null || comicListDto.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не найдено ни одного комикса.");
+        }
+        return new ResponseEntity<>(comicListDto, HttpStatus.FOUND);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
