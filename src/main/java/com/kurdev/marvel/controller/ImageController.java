@@ -1,24 +1,16 @@
 package com.kurdev.marvel.controller;
 
-import com.kurdev.marvel.dto.ComicDto;
 import com.kurdev.marvel.dto.ImageDto;
-import com.kurdev.marvel.entity.Image;
+import com.kurdev.marvel.service.CharacterService;
 import com.kurdev.marvel.service.ImageService;
-import jakarta.persistence.Convert;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 
 @AllArgsConstructor
 @RestController
@@ -26,6 +18,7 @@ import java.util.Arrays;
 public class ImageController {
 
     private ImageService imageService;
+    private CharacterService characterService;
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public ResponseEntity<?> getImage(@PathVariable Long id) {
@@ -48,9 +41,9 @@ public class ImageController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/show/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<byte[]> get(@PathVariable Long id) {
+    public ResponseEntity<byte[]> get(@PathVariable("id") Long characterId) throws IllegalArgumentException{
 
-        ImageDto imageDto = imageService.getImageById(id);
+        ImageDto imageDto = imageService.getImageByCharacterId(characterId);
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.valueOf(MediaType.IMAGE_JPEG_VALUE))

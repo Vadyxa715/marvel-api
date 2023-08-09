@@ -10,4 +10,6 @@ public interface ImageService {
     ImageDto createImage(MultipartFile file, Long characterId) throws IOException;
 
     ImageDto getImageById(Long imageId);
+
+    ImageDto getImageByCharacterId(Long characterId);
 }
