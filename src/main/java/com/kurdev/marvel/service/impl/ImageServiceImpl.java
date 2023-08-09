@@ -27,7 +27,7 @@ public class ImageServiceImpl implements ImageService {
         if (file.getOriginalFilename() == null || file.isEmpty() || file.getOriginalFilename().isEmpty()) {
             throw new IllegalArgumentException("Некорректный файл.");
         }
-        if (characterRepo.existsById(characterId)) {
+        if (!characterRepo.existsById(characterId)) {
             throw new IllegalArgumentException("Персонажа с таким ID: " + characterId + " не существует.");
         }
         Image image = new Image();

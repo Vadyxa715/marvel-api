@@ -2,19 +2,13 @@ package com.kurdev.marvel.controller;
 
 import com.kurdev.marvel.dto.CharacterDto;
 import com.kurdev.marvel.dto.ComicDto;
-import com.kurdev.marvel.entity.Character;
-import com.kurdev.marvel.entity.Comic;
-import com.kurdev.marvel.repo.CharacterRepo;
-import com.kurdev.marvel.repo.ComicRepo;
 import com.kurdev.marvel.service.CharacterService;
 import com.kurdev.marvel.service.ComicService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -35,12 +29,12 @@ public class CharacterController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> getAllCharacters (){
+    public ResponseEntity<?> getAllCharacters() {
         List<CharacterDto> characterDtoList = characterService.getAllCharacters();
         if (characterDtoList == null || characterDtoList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не найдено ни одного персонажа.");
         }
-        return new ResponseEntity<>(characterDtoList,HttpStatus.FOUND);
+        return new ResponseEntity<>(characterDtoList, HttpStatus.FOUND);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
@@ -54,28 +48,17 @@ public class CharacterController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{id}/comics")
     public ResponseEntity<?> getAllComicsByCharacterId(@PathVariable(value = "id") Long characterId) {
-        try{
+        try {
             List<ComicDto> comicDto = characterService.getAllComicsByCharacterId(characterId);
             return new ResponseEntity<>(comicDto, HttpStatus.OK);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонаж с таким \"ID : " + characterId + "\" не найден. ");
         }
     }
 
-//    @RequestMapping(method = RequestMethod.POST, value = "/{id}/comics")
-//    public ResponseEntity<?> addComicByCharacterId (@PathVariable(value = "id")Long characterId,
-//                                                    @RequestBody ComicDto comicDto){
-//        try{
-//            List<ComicDto> comicDtos = characterService.save(characterId);
-//            return new ResponseEntity<>(comicDtos, HttpStatus.OK);
-//        }catch (Exception e){
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Персонаж с таким \"ID : " + characterId + "\" не найден.");
-//        }
-//    }
-
     @RequestMapping(method = RequestMethod.PUT, value = "/{id}/addComic/{comicId}")
-    public ResponseEntity<?> addComicByCharacterId (@PathVariable(value = "id")Long characterId,
-                                                    @PathVariable(value = "comicId")Long comicId){
+    public ResponseEntity<?> addComicByCharacterId(@PathVariable(value = "id") Long characterId,
+                                                   @PathVariable(value = "comicId") Long comicId) {
         if (!comicService.existsById(comicId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Комикса с таким \"ID : " + comicId + "\" не существует.");
         }
