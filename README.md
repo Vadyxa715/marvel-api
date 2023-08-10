@@ -1,16 +1,20 @@
 # marvel-api
-Постановка задачи:
+# Постановка задачи: #
+
 Реализовать на языке программирования Java Rest API для картотеки супергероев Marvel.
-Необходимо реализовать
+=
+Необходимо реализовать:
+
 1)	Базовые API методы https://developer.marvel.com
-•	GET /v1/public/characters
-•	GET /v1/public/characters/{characterId}
-•	GET /v1/public/characters/{characterId}/comics
-•	GET /v1/public/comics
-•	GET /v1/public/comics/{comicId}
-•	GET /v1/public/comics/{comicId}/characters
-2)	POST/PUT методы для наполнения базы/файлов c комиксами и героями
++	GET /v1/public/characters 
++	GET /v1/public/characters/{characterId}
++	GET /v1/public/characters/{characterId}/comics
++	GET /v1/public/comics
++	GET /v1/public/comics/{comicId}
++	GET /v1/public/comics/{comicId}/characters
+3)	POST/PUT методы для наполнения базы/файлов c комиксами и героями
 Обязательные требования:
+
 1)	Постраничная загрузка, сортировка, фильтрация для запросов, возвращающих списки
 2)	Работа с изображениями (загрузка, отображение)
 3)	Адекватные ошибки в ответе. Например:
