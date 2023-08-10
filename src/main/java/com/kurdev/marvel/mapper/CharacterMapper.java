@@ -4,7 +4,6 @@ import com.kurdev.marvel.dto.CharacterDto;
 import com.kurdev.marvel.entity.Character;
 
 public class CharacterMapper {
-    //обычно называется convert(конверт)
     public static CharacterDto mapToCharacterDto(Character character){
         if(character == null) return null;
         return new CharacterDto(
@@ -13,7 +12,6 @@ public class CharacterMapper {
                 character.getDescription()
         );
     }
-    //обычно называется revert(реверт)
     public static Character mapToCharacter (CharacterDto characterDto){
         if(characterDto == null) return null;
         return new Character(

@@ -40,9 +40,6 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public List<CharacterDto> getAllCharacterByComicId(Long comicId) {
-        if (!comicRepo.existsById(comicId)) {
-            throw new IllegalArgumentException("Не существет комикса с такий id = " + comicId);
-        }
         return characterRepo.findByComicId(comicId)
                 .stream().map(CharacterMapper::mapToCharacterDto)
                 .collect(Collectors.toList());

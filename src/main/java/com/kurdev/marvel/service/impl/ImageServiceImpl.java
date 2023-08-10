@@ -51,17 +51,10 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ImageDto getImageByCharacterId(Long characterId) throws IllegalArgumentException {
+    public ImageDto getImageByCharacterId(Long characterId){
         Character character = characterRepo.findById(characterId)
                 .orElse(null);
-        if (character == null) {
-            throw new IllegalArgumentException("Персонажа с таким ID: " + characterId + " не найден.");
-        }
         Image characterImg = character.getImage();
-
-        if (characterImg == null || characterImg.getImageData() == null) {
-            throw new IllegalArgumentException("У персонажа с таким ID: " + characterId + " нет картинки.");
-        }
         return ImageMapper.mapToImageDto(characterImg);
     }
 }
