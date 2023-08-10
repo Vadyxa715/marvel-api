@@ -34,7 +34,7 @@ public class Comic {
             name = "characters_comics",
             joinColumns = @JoinColumn(name = "comic_id"),
             inverseJoinColumns = @JoinColumn(name = "character_id"))
-      private List<Character> characters = new ArrayList<>();;
+    private List<Character> characters = new ArrayList<>();
 
     public Comic(Long id, String title, double issueNumber, String description, int pageCount) {
         this.id = id;

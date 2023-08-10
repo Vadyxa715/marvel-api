@@ -11,6 +11,8 @@ import com.kurdev.marvel.service.ComicService;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,9 +42,6 @@ public class ComicServiceImpl implements ComicService {
 
     @Override
     public List<CharacterDto> getAllCharacterByComicId(Long comicId) {
-        if (!comicRepo.existsById(comicId)) {
-            throw new IllegalArgumentException("Не существет комикса с такий id = " + comicId);
-        }
         return characterRepo.findByComicId(comicId)
                 .stream().map(CharacterMapper::mapToCharacterDto)
                 .collect(Collectors.toList());
@@ -65,10 +64,8 @@ public class ComicServiceImpl implements ComicService {
     }
 
     @Override
-    public List<ComicDto> getAllComics() {
-        List<Comic> comicList = comicRepo.findAll();
-        return comicList.stream().map(ComicMapper::mapToComicDto)
-                .collect(Collectors.toList());
+    public Page<ComicDto> getAllComics(Pageable pageable) {
+        return comicRepo.findAll(pageable).map(ComicMapper::mapToComicDto);
     }
 
     @PostConstruct

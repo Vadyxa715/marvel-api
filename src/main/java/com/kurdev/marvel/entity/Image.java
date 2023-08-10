@@ -24,7 +24,7 @@ public class Image {
     private String extension;
 
     @Lob
-    @Column(name = "image_data")//, columnDefinition = "BLOB")
+    @Column(name = "image_data")
     private byte[] imageData;
 
 }

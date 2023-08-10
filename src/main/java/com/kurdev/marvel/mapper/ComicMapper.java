@@ -4,8 +4,8 @@ import com.kurdev.marvel.dto.ComicDto;
 import com.kurdev.marvel.entity.Comic;
 
 public class ComicMapper {
-    public static ComicDto mapToComicDto(Comic comic){
-        if(comic == null) return null;
+    public static ComicDto mapToComicDto(Comic comic) {
+        if (comic == null) return null;
         return new ComicDto(
                 comic.getId(),
                 comic.getTitle(),
@@ -15,8 +15,8 @@ public class ComicMapper {
         );
     }
 
-    public static Comic mapToComic(ComicDto comicDto){
-        if(comicDto == null) return null;
+    public static Comic mapToComic(ComicDto comicDto) {
+        if (comicDto == null) return null;
         return new Comic(
                 comicDto.getId(),
                 comicDto.getTitle(),
