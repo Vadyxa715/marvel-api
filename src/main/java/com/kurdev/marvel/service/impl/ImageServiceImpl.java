@@ -51,7 +51,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public ImageDto getImageByCharacterId(Long characterId){
+    public ImageDto getImageByCharacterId(Long characterId) {
         Character character = characterRepo.findById(characterId)
                 .orElse(null);
         Image characterImg = character.getImage();
