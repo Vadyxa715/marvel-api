@@ -30,6 +30,11 @@ b.	400 если запрос не прошёл валидацию
 =
 1.	Java openjdk-19 (Oracle OpenJDK version 19.0.2)
 2.	Сборка – Maven
-3.	Spring Boot version
-5.	(Желательно) использование базы данных. Например Mongo
-6.	(Совсем здорово) использование docker
+3.	Spring Boot version 3.0.0
+5.	База данных. PostgreSQL
+    
+Для запуска необходимо создать БД и указать логин/пароль
+=
++ spring.datasource.url=jdbc:postgresql://localhost:5432/**your_name_db**
++ spring.datasource.username=**your_login_db**
++ spring.datasource.password=**your_password_db**
