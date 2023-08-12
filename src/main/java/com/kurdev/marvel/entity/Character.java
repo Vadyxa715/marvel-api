@@ -23,6 +23,10 @@ public class Character {
     @Column(name = "description")
     private String description;
 
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image image;
+
     @ManyToMany
     @JoinTable(
             name = "characters_comics",

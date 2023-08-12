@@ -2,7 +2,8 @@ package com.kurdev.marvel.service;
 
 import com.kurdev.marvel.dto.CharacterDto;
 import com.kurdev.marvel.dto.ComicDto;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -15,8 +16,8 @@ public interface CharacterService {
 
     boolean existsById(Long characterId);
 
-    void addComic (Long comicId, Long characterId);
+    void addComic(Long comicId, Long characterId);
 
-    List<CharacterDto> getAllCharacters ();
+    Page<CharacterDto> getAllCharacters(Pageable pageable);
 
 }

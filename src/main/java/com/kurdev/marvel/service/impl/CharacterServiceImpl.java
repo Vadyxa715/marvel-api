@@ -11,6 +11,8 @@ import com.kurdev.marvel.service.CharacterService;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,9 +58,9 @@ public class CharacterServiceImpl implements CharacterService {
 
     @Override
     public void addComic(Long comicId, Long characterId) {
-        var characterOptional =  characterRepo.findById(characterId);
+        var characterOptional = characterRepo.findById(characterId);
         var comicOptional = comicRepo.findById(comicId);
-        if(characterOptional.isPresent() && comicOptional.isPresent()){
+        if (characterOptional.isPresent() && comicOptional.isPresent()) {
             Character character = characterOptional.get();
             character.getComics().add(comicOptional.get());
             characterRepo.save(character);
@@ -66,24 +68,22 @@ public class CharacterServiceImpl implements CharacterService {
     }
 
     @Override
-    public List<CharacterDto> getAllCharacters() {
-        List<Character> characterList = characterRepo.findAll();
-        return characterList.stream().map(CharacterMapper::mapToCharacterDto)
-                .collect(Collectors.toList());
+    public Page<CharacterDto> getAllCharacters(Pageable pageable) {
+        return characterRepo.findAll(pageable).map(CharacterMapper::mapToCharacterDto);
     }
 
     @PostConstruct
-    void initDb (){
-        Character character = new Character(1L,"Капитан Америка","Воистину радостный звук");
-        Character character1 = new Character(2L,"Карнаж","Высококачественный прототипние сомнения");
-        Character character2 = new Character(3L,"Человек Паук","Органический трафик  сомнения");
-        Character character3 = new Character(4L,"Черная кошка","Независимые СМИ потому ");
-        Character character4 = new Character(5L,"Черная Вдова","Не следует забывать, что был совхоза");
-        Character character5 = new Character(6L,"Аттом","Частотность поисковых запросов ошибочной");
-        Character character6 = new Character(7L,"Рассомаха","Оказывается, обучение задача");
-        Character character7 = new Character(8L,"Халк","Инцидент не исчерпан: был сорван совхоза!");
-        Character character8 = new Character(9L,"Тор","Франция намерена исследовать, меньше");
-        Character character9 = new Character(10L,"Человек Муравей","Давайте не будем меньше");
+    void initDb() {
+        Character character = new Character(1L, "Капитан Америка", "Воистину радостный звук");
+        Character character1 = new Character(2L, "Карнаж", "Высококачественный прототипние сомнения");
+        Character character2 = new Character(3L, "Человек Паук", "Органический трафик  сомнения");
+        Character character3 = new Character(4L, "Капитан Марвел", "Независимые СМИ потому ");
+        Character character4 = new Character(5L, "Черная Вдова", "Не следует забывать, что был совхоза");
+        Character character5 = new Character(6L, "Доктор Стрендж", "Частотность поисковых запросов ошибочной");
+        Character character6 = new Character(7L, "Рассомаха", "Оказывается, обучение задача");
+        Character character7 = new Character(8L, "Халк", "Инцидент не исчерпан: был сорван совхоза!");
+        Character character8 = new Character(9L, "Тор", "Франция намерена исследовать, меньше");
+        Character character9 = new Character(10L, "Человек Муравей", "Давайте не будем меньше");
         List<Character> characterList = List.of(character, character1, character2, character3,
                 character4, character5, character6, character7, character8, character9);
         characterRepo.saveAll(characterList);

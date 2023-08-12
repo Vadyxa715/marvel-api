@@ -4,19 +4,23 @@ import com.kurdev.marvel.dto.ImageDto;
 import com.kurdev.marvel.entity.Image;
 
 public class ImageMapper {
-    public static ImageDto mapToImageDto(Image image){
+    public static ImageDto mapToImageDto(Image image) {
+        if (image == null) return null;
         return new ImageDto(
                 image.getId(),
-                image.getPath(),
-                image.getExtension()
+                image.getName(),
+                image.getExtension(),
+                image.getImageData()
         );
     }
 
-    public static Image mapToImage(ImageDto imageDto){
+    public static Image mapToImage(ImageDto imageDto) {
+        if (imageDto == null) return null;
         return new Image(
                 imageDto.getId(),
-                imageDto.getPath(),
-                imageDto.getExtension()
+                imageDto.getName(),
+                imageDto.getExtension(),
+                imageDto.getImageData()
         );
     }
 }
