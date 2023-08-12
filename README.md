@@ -11,6 +11,9 @@
 +	GET /v1/public/comics/{comicId}
 +	GET /v1/public/comics/{comicId}/characters
   
+2) Ссылка на Swagger
+   http://localhost:8080/swagger-ui/index.html#/ 
+  
 2)	POST/PUT методы для наполнения базы/файлов c комиксами и героями
    
 Выполнены следущие требования:
@@ -21,7 +24,7 @@
 3)	Обработанны ошибки в ответе:
 + 404 если не найдена сущность
 + 400 если запрос не прошёл валидацию
-4)	Документирование API (например, через Swagger)
+4)	Документирование API (Swagger)
 1)	Формат запросов и ответов упрощён по сравнению с Marvel (оставлены только базовые поля)
 
  Реализация проверки токена безопасности отсутствует
@@ -32,9 +35,9 @@
 2.	Сборка – Maven
 3.	Spring Boot version 3.0.0
 5.	База данных. PostgreSQL
+6.	Docker
     
-Для запуска необходимо создать БД и указать логин/пароль
+Для запуска необходимо:
 =
-+ spring.datasource.url=jdbc:postgresql://localhost:5432/**your_name_db**
-+ spring.datasource.username=**your_login_db**
-+ spring.datasource.password=**your_password_db**
++ В командной строке перейти в директорию корня проекта
++ Запустить команду: `docker-compose up`
