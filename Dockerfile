@@ -1,6 +1,11 @@
+#Build
+FROM maven:3.8.5-openjdk-17 AS build
+COPY src /home/app/src
+COPY pom.xml /home/app
+RUN mvn -f /home/app/pom.xml clean package -DskipTests
+
+#Package
 FROM openjdk:17-oracle
-RUN mkdir /marvel
-COPY . /marvel
-WORKDIR /marvel
-CMD ["mvn", "./pom.xml", "clean", "package"]
-CMD ["java", "-jar", "target/marvel-0.0.1-SNAPSHOT.jar"]
+COPY --from=build /home/app/target/marvel-0.0.1-SNAPSHOT.jar /usr/local/lib/marvel-0.0.1-SNAPSHOT.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/usr/local/lib/marvel-0.0.1-SNAPSHOT.jar"]
