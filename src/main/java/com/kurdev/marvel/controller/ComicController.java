@@ -40,9 +40,10 @@ public class ComicController {
     public Page<ComicDto> getAllComics(
             @RequestParam(defaultValue = "title", required = false) String sort,
             @RequestParam(defaultValue = "0", required = false) int page,
-            @RequestParam(defaultValue = "3", required = false) int size
+            @RequestParam(defaultValue = "3", required = false) int size,
+            @RequestParam(defaultValue = "ASC", required = false) String order
     ) {
-        Pageable paging = PageRequest.of(page, size, Sort.by(sort));
+        Pageable paging = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
         Page<ComicDto> comicListDto = comicService.getAllComics(paging);
         if (comicListDto == null || comicListDto.isEmpty()) {
             throw new RuntimeException("Не найдено ни одного комикса.");
